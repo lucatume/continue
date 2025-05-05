@@ -25,8 +25,8 @@ import { selectSelectedChatModel } from "../../../../redux/slices/configSlice";
 import { AppDispatch } from "../../../../redux/store";
 import { exitEditMode } from "../../../../redux/thunks/editMode";
 import { getFontSize, isJetBrains } from "../../../../util";
-import * as ContinueExtensions from "../extensions";
 import { TipTapEditorProps } from "../TipTapEditor";
+import * as ContinueExtensions from "../extensions";
 import { handleImageFile } from "./imageUtils";
 
 export function getPlaceholderText(
@@ -195,7 +195,7 @@ export function createEditorConfig(options: {
       Paragraph.extend({
         addKeyboardShortcuts() {
           return {
-            Enter: () => {
+            "Mod-Enter": () => {
               if (inDropdownRef.current) {
                 return false;
               }
@@ -207,7 +207,7 @@ export function createEditorConfig(options: {
               return true;
             },
 
-            "Mod-Enter": () => {
+            "Shift-Enter": () => {
               onEnterRef.current({
                 useCodebase: true,
                 noContext: !useActiveFile,
@@ -233,7 +233,7 @@ export function createEditorConfig(options: {
               }
               return false;
             },
-            "Shift-Enter": () =>
+            "Enter": () =>
               this.editor.commands.first(({ commands }) => [
                 () => commands.newlineInCode(),
                 () => commands.createParagraphNear(),

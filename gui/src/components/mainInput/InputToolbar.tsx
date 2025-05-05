@@ -13,12 +13,11 @@ import { selectSelectedChatModel } from "../../redux/slices/configSlice";
 import { exitEditMode } from "../../redux/thunks/editMode";
 import {
   getAltKeyLabel,
-  getMetaKeyLabel,
-  isMetaEquivalentKeyPressed,
+  getMetaKeyLabel
 } from "../../util";
 import { ToolTip } from "../gui/Tooltip";
-import ModelSelect from "../modelSelection/ModelSelect";
 import ModeSelect from "../modelSelection/ModeSelect";
+import ModelSelect from "../modelSelection/ModelSelect";
 import { useFontSize } from "../ui/font";
 import { EnterButton } from "./InputToolbar/EnterButton";
 import HoverItem from "./InputToolbar/HoverItem";
@@ -174,10 +173,10 @@ function InputToolbar(props: InputToolbarProps) {
                   }
                 >
                   <span data-tooltip-id="add-codebase-context-tooltip">
-                    {getMetaKeyLabel()}⏎ @codebase
+                  ⇧⏎ @codebase
                   </span>
                   <ToolTip id="add-codebase-context-tooltip" place="top-end">
-                    Send With Codebase as Context ({getMetaKeyLabel()}⏎)
+                    Send With Codebase as Context (⇧⏎)
                   </ToolTip>
                 </HoverItem>
               )}
@@ -205,7 +204,7 @@ function InputToolbar(props: InputToolbarProps) {
             onClick={async (e) => {
               if (props.onEnter) {
                 props.onEnter({
-                  useCodebase: isMetaEquivalentKeyPressed(e as any),
+                  useCodebase: false,
                   noContext: useActiveFile ? e.altKey : !e.altKey,
                 });
               }
@@ -213,11 +212,11 @@ function InputToolbar(props: InputToolbarProps) {
             disabled={isEnterDisabled}
           >
             <span className="hidden md:inline">
-              ⏎ {props.toolbarOptions?.enterText ?? "Enter"}
+              {getMetaKeyLabel()}⏎ {props.toolbarOptions?.enterText ?? "Send"}
             </span>
             <span className="md:hidden">⏎</span>
             <ToolTip id="enter-tooltip" place="top">
-              Send (⏎)
+              Send ({getMetaKeyLabel()}⏎)
             </ToolTip>
           </EnterButton>
         </div>
