@@ -196,10 +196,6 @@ export function createEditorConfig(options: {
         addKeyboardShortcuts() {
           return {
             "Mod-Enter": () => {
-              if (inDropdownRef.current) {
-                return false;
-              }
-
               onEnterRef.current({
                 useCodebase: false,
                 noContext: !useActiveFile,
@@ -234,12 +230,18 @@ export function createEditorConfig(options: {
               return false;
             },
             "Enter": () =>
-              this.editor.commands.first(({ commands }) => [
-                () => commands.newlineInCode(),
-                () => commands.createParagraphNear(),
-                () => commands.liftEmptyBlock(),
-                () => commands.splitBlock(),
-              ]),
+              {
+                if (inDropdownRef.current) {
+                  return false;
+                }
+
+                return this.editor.commands.first(({ commands }) => [
+                  () => commands.newlineInCode(),
+                  () => commands.createParagraphNear(),
+                  () => commands.liftEmptyBlock(),
+                  () => commands.splitBlock(),
+                ]);
+              },
 
             ArrowUp: () => {
               if (this.editor.state.selection.anchor > 1) {
